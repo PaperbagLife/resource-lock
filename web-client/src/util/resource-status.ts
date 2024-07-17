@@ -6,7 +6,6 @@ enum ResourceType {
     SERVER=1
 }
 
-
 type ResourceStatus = {
     locked: boolean
     name?: string // who locked
@@ -26,10 +25,9 @@ type Server = {
     nics: Nic[]
 }
 
+const servers = ref<Server[]>()
 
-export const servers = ref<Server[]>()
-
-export async function refreshStatus(){
+async function refreshStatus(){
     console.log(REQUEST_URL)
     // async function sendPostRequest() {
   try {
@@ -44,3 +42,8 @@ export async function refreshStatus(){
   }
 }
 
+export function useResourceStatus() {
+    return {
+        servers: servers, refreshStatus:refreshStatus
+    }
+}

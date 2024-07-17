@@ -1,1 +1,1 @@
-{"type":1,"name":"server1","status":{"locked":false},"nics":[{"type":0,"name":"mlx1","status":{"locked":false}}]}
+[{"type":1,"name":"server1","status":{"locked":false},"nics":[{"type":0,"name":"mlx1","status":{"locked":false}}]}]
