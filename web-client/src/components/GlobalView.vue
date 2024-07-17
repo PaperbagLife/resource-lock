@@ -23,13 +23,22 @@ onMounted(() => {
       :key="server.name"
       class="mx-1 py-1 my-1 col-auto rounded server-outline"
     >
-      <div class="row">
-        <img class="col-auto" :src="serverUrl" width="50" height="50" />
-        <div class="col-auto">
-          <div class="lock-status-icon row material-symbols-outlined">
+      <div v-if="server.status.locked && server.status.endTime">
+        {{ server.status.name }} until
+        {{ new Date(server.status.endTime).toLocaleString() }}
+      </div>
+      <div v-else>Free</div>
+      <div class="row mx-0">
+        <img class="col-auto px-0" :src="serverUrl" width="50" height="50" />
+        <div class="col-auto d-flex align-items-center">
+          <div
+            class="lock-status-icon material-symbols-outlined"
+            :class="server.status.locked ? 'locked' : 'unlocked'"
+          >
             {{ server.status.locked ? 'lock' : 'lock_open_right' }}
           </div>
-          <button class="row" @click="expanded[i] = !expanded[i]">
+
+          <button class="h-50" @click="expanded[i] = !expanded[i]">
             {{ server.name + (expanded[i] ? '△' : '▼') }}
           </button>
         </div>
@@ -45,6 +54,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
+    <div>{{ servers }}</div>
     <button @click="refreshStatus()">Refresh state</button>
   </div>
 </template>
