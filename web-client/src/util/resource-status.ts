@@ -1,49 +1,47 @@
-import { ref } from "vue"
-import axios from "axios"
+import { ref } from 'vue'
+import axios from 'axios'
 import REQUEST_URL from '../../requestURL.txt?raw'
-enum ResourceType {
-    NIC=0,
-    SERVER=1
+export enum ResourceType {
+  NIC = 0,
+  SERVER = 1
 }
 
 type ResourceStatus = {
-    locked: boolean
-    name?: string // who locked
-    endTime?: number // Unix timestamp in milliseconds, or -1 for infite length
+  locked: boolean
+  name?: string // who locked
+  endTime?: number // Unix timestamp in milliseconds, or -1 for infite length
 }
 
 type Nic = {
-    type: ResourceType.NIC
-    name: string // mlx name of the nic
-    status: ResourceStatus
+  type: ResourceType.NIC
+  name: string // mlx name of the nic
+  status: ResourceStatus
 }
 
-type Server = {
-    type: ResourceType.SERVER
-    name: string // aa, smokey, oracle etc
-    status: ResourceStatus
-    nics: Nic[]
+export type Server = {
+  type: ResourceType.SERVER
+  name: string // aa, smokey, oracle etc
+  status: ResourceStatus
+  nics: Nic[]
 }
 
-const servers = ref<Server[]>()
+const servers = ref<Server[]>([])
 
-async function refreshStatus(){
-    console.log(REQUEST_URL)
-    // async function sendPostRequest() {
+async function refreshStatus() {
+  console.log(REQUEST_URL)
+  // async function sendPostRequest() {
   try {
-    const { data } = await axios.post<Server[]>(
-      `${REQUEST_URL}/status`,
-      {}
-    );
+    const { data } = await axios.post<Server[]>(`${REQUEST_URL}/status`, {})
     console.log(data)
-    servers.value = data;
+    servers.value = data
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 }
 
 export function useResourceStatus() {
-    return {
-        servers: servers, refreshStatus:refreshStatus
-    }
+  return {
+    servers: servers,
+    refreshStatus: refreshStatus
+  }
 }

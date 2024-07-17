@@ -13,7 +13,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@originjs/vite-plugin-require-context": "^1.0.9",
+    "@popperjs/core": "^2.11.8",
     "axios": "^1.7.2",
+    "bootstrap": "^5.3.3",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
   },
@@ -29,6 +32,7 @@
     "eslint-plugin-vue": "^9.23.0",
     "npm-run-all2": "^6.2.0",
     "prettier": "^3.2.5",
+    "sass": "^1.77.8",
     "typescript": "~5.4.0",
     "vite": "^5.3.1",
     "vue-tsc": "^2.0.21"
