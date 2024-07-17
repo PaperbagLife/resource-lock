@@ -6,13 +6,14 @@ export enum ResourceType {
   SERVER = 1
 }
 
+
 type ResourceStatus = {
   locked: boolean
   name?: string // who locked
   endTime?: number // Unix timestamp in milliseconds, or -1 for infite length
 }
 
-type Nic = {
+export type Nic = {
   type: ResourceType.NIC
   name: string // mlx name of the nic
   status: ResourceStatus
@@ -32,8 +33,18 @@ async function refreshStatus() {
   // async function sendPostRequest() {
   try {
     const { data } = await axios.post<Server[]>(`${REQUEST_URL}/status`, {})
-    console.log(data)
     servers.value = data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function setStatus(newServers: Server[]) {
+  try {
+    console.log(JSON.stringify(newServers))
+    await axios.post(`${REQUEST_URL}/update`, JSON.stringify(newServers))
+    console.log('update complete')
+    refreshStatus()
   } catch (error) {
     console.log(error)
   }
@@ -42,6 +53,7 @@ async function refreshStatus() {
 export function useResourceStatus() {
   return {
     servers: servers,
-    refreshStatus: refreshStatus
+    refreshStatus: refreshStatus,
+    setStatus: setStatus
   }
 }
